@@ -4,21 +4,25 @@ import scipy.sparse as sparse
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.feature_extraction.text import TfidfTransformer
 import conf
-try: import cPickle as pickle   # python2
-except: import pickle           # python3
+try:
+    import cPickle as pickle   # python2
+except:
+    import pickle           # python3
 
 np.set_printoptions(suppress=True)
 
 import sys
-try: #python2
+try:  # python2
     reload(sys)
     sys.setdefaultencoding('utf-8')
-except: pass
+except:
+    pass
 
 train_input = conf.train_tsv
 test_input = conf.test_tsv
 train_output = conf.train_matrix
 test_output = conf.test_matrix
+
 
 def get_df(input):
     df = pd.read_csv(
@@ -28,8 +32,10 @@ def get_df(input):
         delimiter='\t',
         names=['id', 'label', 'text']
     )
-    sys.stderr.write('The input data frame {} size is {}\n'.format(input, df.shape))
+    sys.stderr.write(
+        'The input data frame {} size is {}\n'.format(input, df.shape))
     return df
+
 
 def save_matrix(df, matrix, output):
     id_matrix = sparse.csr_matrix(df.id.astype(np.int64)).T
@@ -43,6 +49,7 @@ def save_matrix(df, matrix, output):
     with open(output, 'wb') as fd:
         pickle.dump(result, fd, pickle.HIGHEST_PROTOCOL)
     pass
+
 
 df_train = get_df(train_input)
 train_words = np.array(df_train.text.str.lower().values.astype('U'))
@@ -65,4 +72,3 @@ test_words_binary_matrix = bag_of_words.transform(test_words)
 test_words_tfidf_matrix = tfidf.transform(test_words_binary_matrix)
 
 save_matrix(df_test, test_words_tfidf_matrix, test_output)
-
