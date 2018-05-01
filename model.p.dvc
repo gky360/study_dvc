@@ -6,8 +6,8 @@ deps:
   path: code/train_model.py
 - md5: 17f591c0c65a450fd53b34ba0ac6df7b
   path: code/conf.py
-md5: a984ba351690783d0b784919711cbbc2
+md5: c68253a136b04730bce375d249a04b65
 outs:
 - cache: true
-  md5: 82788b0e25c969ef44a7988914f69044
+  md5: 19904c039ce83fa7ca4efe76a4581717
   path: data/model.p
